@@ -1,5 +1,5 @@
 {
-  "name": "Simple Timer by DeckTools",
+  "name": "Simple Timer",
   "author": "DeckTools.xyz",
   "flags": ["debug", "root"],
   "api_version": 1,

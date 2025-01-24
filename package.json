@@ -4,8 +4,8 @@
   "description": "Create a simple timer that allows you to be notified when your session should end.",
   "type": "module",
   "scripts": {
-    "build": "rollup -c && cp ./assets/alarm.mp3 ./dist/alarm.mp3",
-    "watch": "watch 'rollup -c && cp ./assets/alarm.mp3 ./dist/alarm.mp3' ./src",
+    "build": "rollup -c && cp ./assets/alarm.mp3 ./dist",
+    "watch": "watch 'npm run build'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

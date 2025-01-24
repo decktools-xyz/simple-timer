@@ -20,7 +20,7 @@ import {
 } from "@decky/api";
 
 import { FaClock, FaMinus, FaPlus, FaVolumeDown } from "react-icons/fa";
-import { PropsWithChildren, useEffect, useState } from "react";
+import { PropsWithChildren, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { SteamUtils } from "./utils/steam";
 
 // This function calls the python function "start_timer", which takes in no arguments and returns nothing.
@@ -65,6 +65,7 @@ const MinutesButton = ({ children, type, ...props }: MinutesButtonProps) => {
 const directoryPath = import.meta.url.substring(0, import.meta.url.lastIndexOf('/') + 1);
 
 function Content() {
+  const containerRef = useRef<HTMLDivElement>(null);
   const [timerMinutes, setTimerMinutes] = useState(5);
 
   const [secondsRemaining, setSecondsRemaining] = useState(0);
@@ -99,8 +100,12 @@ function Content() {
     }
   }, []);
 
+  useLayoutEffect(() => {
+    containerRef?.current?.scrollTo(0, 0);
+  }, []);
+
   return (
-    <>
+    <div id="container" ref={containerRef}>
       <PanelSection>
         {secondsRemaining <= 0 ? (
           <PanelSectionRow>
@@ -133,7 +138,7 @@ function Content() {
 
         {secondsRemaining <= 0 ? (
           <PanelSectionRow>
-            <Focusable preferredFocus flow-children="row" style={{ display: 'flex', paddingBottom: 16, flex: '1 1 auto', justifyContent: 'center', flexDirection: 'row', gap: 8 }}>
+            <Focusable flow-children="row" style={{ display: 'flex', paddingBottom: 16, flex: '1 1 auto', justifyContent: 'center', flexDirection: 'row', gap: 8 }}>
               <MinutesButton type='negative' disabled={timerMinutes <= 5} onClick={() => setTimerMinutes(prev => prev - 5)}>
                 <FaMinus size={8} /><span>5</span>
               </MinutesButton>
@@ -149,7 +154,7 @@ function Content() {
 
         <PanelSectionRow>
           <ToggleField
-            disabled={secondsRemaining > 0}
+            disabled={secondsRemaining > 0 && secondsRemaining < 30}
             icon={<FaVolumeDown />}
             checked={subtleMode}
             label="Subtle Mode"
@@ -167,7 +172,7 @@ function Content() {
             <p>You have no recent timers. You can quickly restart your last 5 timers here.</p>
           ) : (
             recentTimerSeconds?.map((seconds, idx) => (
-              <ButtonItem disabled={secondsRemaining > 0} layout="below" key={`${idx}-seconds`} onClick={async () => startTimer(seconds)}>Start {seconds / 60} Minute Timer</ButtonItem>
+              <ButtonItem highlightOnFocus={secondsRemaining === 0} disabled={secondsRemaining > 0} layout="below" key={`${idx}-seconds`} onClick={async () => { containerRef.current?.scrollTo(0,0); startTimer(seconds); }}>Start {seconds / 60} Minute Timer</ButtonItem>
             ))
           )}
         </PanelSectionRow>
@@ -178,7 +183,7 @@ function Content() {
           <ButtonItem disabled bottomSeparator="none" layout="below">decktools.xyz/donate <span style={{ color: 'pink' }}>&lt;3</span></ButtonItem>
         </PanelSectionRow>
       </PanelSection>
-    </>
+    </div>
   );
 };
 
