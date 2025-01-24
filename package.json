@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DeckToolsXYZ/decky-simple-timer.git"
+    "url": "git+https://github.com/decktools-xyz/simple-timer.git"
   },
   "keywords": [
     "decky",
@@ -22,9 +22,9 @@
   "author": "Joseph Clover <clover@hey.com>",
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/DeckToolsXYZ/decky-simple-timer/issues"
+    "url": "https://github.com/decktools-xyz/simple-timer/issues"
   },
-  "homepage": "https://github.com/DeckToolsXYZ/decky-simple-timer#readme",
+  "homepage": "https://github.com/decktools-xyz/simple-timer#readme",
   "devDependencies": {
     "@decky/rollup": "^1.0.1",
     "@decky/ui": "^4.9.0",
