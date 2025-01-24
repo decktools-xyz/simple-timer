@@ -1,10 +1,10 @@
 {
-  "name": "Simple Timer",
-  "author": "Joey Clover",
-  "flags": ["debug", "_root"],
+  "name": "Simple Timer by DeckTools",
+  "author": "DeckTools.xyz",
+  "flags": ["debug", "root"],
   "api_version": 1,
   "publish": {
-    "tags": ["template", "root"],
+    "tags": ["alarm", "timer", "decktools"],
     "description": "Set a timer that will remind you when your session should end.",
     "image": "https://opengraph.githubassets.com/1/SteamDeckHomebrew/PluginLoader"
   }

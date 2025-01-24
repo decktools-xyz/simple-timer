@@ -1,33 +1,33 @@
 {
-  "name": "decky-plugin-template",
-  "version": "0.0.1",
-  "description": "A template to quickly create decky plugins from scratch, based on TypeScript and webpack",
+  "name": "simple-timer",
+  "version": "0.9.0",
+  "description": "Create a simple timer that allows you to be notified when your session should end.",
   "type": "module",
   "scripts": {
-    "build": "rollup -c",
-    "watch": "rollup -c -w",
+    "build": "rollup -c && cp ./assets/alarm.mp3 ./dist/alarm.mp3",
+    "watch": "watch 'rollup -c && cp ./assets/alarm.mp3 ./dist/alarm.mp3' ./src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SteamDeckHomebrew/decky-plugin-template.git"
+    "url": "git+https://github.com/DeckToolsXYZ/decky-simple-timer.git"
   },
   "keywords": [
     "decky",
     "plugin",
-    "plugin-template",
+    "plugin-simple-timer",
     "steam-deck",
     "deck"
   ],
-  "author": "You <you@you.tld>",
+  "author": "Joseph Clover <clover@hey.com>",
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/SteamDeckHomebrew/decky-plugin-template/issues"
+    "url": "https://github.com/DeckToolsXYZ/decky-simple-timer/issues"
   },
-  "homepage": "https://github.com/SteamDeckHomebrew/decky-plugin-template#readme",
+  "homepage": "https://github.com/DeckToolsXYZ/decky-simple-timer#readme",
   "devDependencies": {
     "@decky/rollup": "^1.0.1",
-    "@decky/ui": "^4.7.2",
+    "@decky/ui": "^4.9.0",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
     "@types/webpack": "^5.28.5",
