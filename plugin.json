@@ -6,6 +6,6 @@
   "publish": {
     "tags": ["alarm", "timer", "decktools"],
     "description": "Set a timer that will remind you when your session should end.",
-    "image": "https://www.decktools.xyz/og.png"
+    "image": "https://www.decktools.xyz/simple-timer-promo.jpeg"
   }
 }
