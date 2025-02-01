@@ -1,4 +1,6 @@
 from settings import SettingsManager # type: ignore
+from datetime import datetime, timedelta
+import time
 import os
 import decky # type: ignore
 import asyncio
@@ -11,8 +13,14 @@ settings.read()
 
 settings_key_subtle_mode="subtle_mode"
 settings_key_recent_timers="recent_timers_seconds"
+settings_key_timer_end="timer_end"
 
 class Plugin:
+
+    timer_task: any
+
+    def get_time_difference(self, target_timestamp: datetime):
+        return target_timestamp - time.time()
     
     # region: Settings
     async def settings_read(self):
@@ -50,15 +58,28 @@ class Plugin:
         self.seconds_remaining = seconds
         await self.load_remaining_seconds()
 
-        self.timer_task = self.loop.create_task(self.timer_handler(seconds))
+        # Stores the timestamp of the expected alarm end
+        future_time = time.time() + seconds
+        future_timestamp = datetime.fromtimestamp(future_time)
 
-    async def timer_handler(self, seconds: int):
-        seconds_elapsed = 0
+        await self.settings_setSetting(settings_key_timer_end, future_time)
+        await self.settings_commit()
 
-        while seconds_elapsed < seconds:
+        self.timer_task = self.loop.create_task(self.timer_handler(future_timestamp))
+
+    async def timer_handler(self, timer_end: datetime):
+        self.seconds_remaining = self.get_time_difference(timer_end.timestamp())
+
+        while self.seconds_remaining > 0:
             await asyncio.sleep(5)
-            seconds_elapsed += 5
-            self.seconds_remaining = seconds - seconds_elapsed
+
+            self.seconds_remaining = self.get_time_difference(timer_end.timestamp())
+
+            if (self.seconds_remaining <= -10):
+                await self.cancel_timer()
+                await decky.emit("simple_timer_event", "Your timer has expired!", True)
+                return
+
             await decky.emit("simple_timer_seconds_updated", self.seconds_remaining)
         
         self.seconds_remaining = 0
@@ -68,10 +89,10 @@ class Plugin:
         await decky.emit("simple_timer_event", "Your session has ended!", subtle)
 
     async def cancel_timer(self):
-        if self.timer_task:
-            self.timer_task.cancel()
         self.seconds_remaining = 0
         await decky.emit("simple_timer_seconds_updated", self.seconds_remaining)
+        if self.timer_task is not None:
+            self.timer_task.cancel()
         
     async def load_recents(self):
         recent_timers = await self.settings_getSetting(settings_key_recent_timers, [])
@@ -96,6 +117,19 @@ class Plugin:
     async def _main(self):
         self.loop = asyncio.get_event_loop()
         self.seconds_remaining = 0
+
+        await self.settings_read()
+        timer_end_ts = await self.settings_getSetting(settings_key_timer_end, None)
+
+        if timer_end_ts is not None:
+            future = datetime.fromtimestamp(timer_end_ts)
+            self.seconds_remaining = self.get_time_difference(future.timestamp())
+            if self.seconds_remaining <= 0:
+                decky.logger.info("Found expired timer -- cancelling")
+                await self.cancel_timer()
+            else:
+                decky.logger.info("Found existing timer -- resuming")
+                await self.start_timer(self.seconds_remaining)
 
         await self.load_recents()
         await self.load_subtle_mode()

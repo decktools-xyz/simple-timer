@@ -110,13 +110,13 @@ function Content() {
         {secondsRemaining <= 0 ? (
           <PanelSectionRow>
             <Focusable preferredFocus flow-children="row" style={{ display: 'flex', flex: '1 1 auto', justifyContent: 'center', flexDirection: 'row', gap: 8 }}>
-              <MinutesButton type='positive' onClick={() => setTimerMinutes(prev => prev + 5)}>
+              <MinutesButton focusable type='positive' onClick={() => setTimerMinutes(prev => prev + 5)}>
                 <FaPlus size={8} /><span>5</span>
               </MinutesButton>
-              <MinutesButton type='positive' onClick={() => setTimerMinutes(prev => prev + 10)}>
+              <MinutesButton focusable type='positive' onClick={() => setTimerMinutes(prev => prev + 10)}>
                 <FaPlus size={8} /><span>10</span>
               </MinutesButton>
-              <MinutesButton type='positive' onClick={() => setTimerMinutes(prev => prev + 30)}>
+              <MinutesButton focusable type='positive' onClick={() => setTimerMinutes(prev => prev + 30)}>
                 <FaPlus size={8} /><span>30</span>
               </MinutesButton>
             </Focusable>
@@ -128,7 +128,7 @@ function Content() {
             <>
               <ButtonItem onClick={async () => await cancelTimer()} bottomSeparator="none" layout="below">
                 Cancel Timer<br />
-                (&lt; {`${Math.round(secondsRemaining / 60)} minute${secondsRemaining > 60 ? 's' : ''}`})
+                { secondsRemaining < 60 ? `Less than a minute` : `< ${Math.ceil(secondsRemaining / 60)} minute${secondsRemaining > 60 ? 's' : ''}` }
               </ButtonItem>
             </>
           ) : (
@@ -139,13 +139,13 @@ function Content() {
         {secondsRemaining <= 0 ? (
           <PanelSectionRow>
             <Focusable flow-children="row" style={{ display: 'flex', paddingBottom: 16, flex: '1 1 auto', justifyContent: 'center', flexDirection: 'row', gap: 8 }}>
-              <MinutesButton type='negative' disabled={timerMinutes <= 5} onClick={() => setTimerMinutes(prev => prev - 5)}>
+              <MinutesButton focusable type='negative' disabled={timerMinutes <= 5} onClick={() => setTimerMinutes(prev => prev - 5)}>
                 <FaMinus size={8} /><span>5</span>
               </MinutesButton>
-              <MinutesButton type='negative' disabled={timerMinutes <= 10} onClick={() => setTimerMinutes(prev => prev - 10)}>
+              <MinutesButton focusable type='negative' disabled={timerMinutes <= 10} onClick={() => setTimerMinutes(prev => prev - 10)}>
                 <FaMinus size={8} /><span>10</span>
               </MinutesButton>
-              <MinutesButton type='negative' disabled={timerMinutes <= 30} onClick={() => setTimerMinutes(prev => prev - 30)}>
+              <MinutesButton focusable type='negative' disabled={timerMinutes <= 30} onClick={() => setTimerMinutes(prev => prev - 30)}>
                 <FaMinus size={8} /><span>30</span>
               </MinutesButton>
             </Focusable>
