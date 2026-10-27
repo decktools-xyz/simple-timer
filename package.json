@@ -1,6 +1,6 @@
 {
   "name": "simple-timer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Create a simple timer that allows you to be notified when your session should end.",
   "type": "module",
   "scripts": {

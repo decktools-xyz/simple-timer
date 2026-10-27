@@ -110,6 +110,9 @@ function Content() {
         {secondsRemaining <= 0 ? (
           <PanelSectionRow>
             <Focusable preferredFocus flow-children="row" style={{ display: 'flex', flex: '1 1 auto', justifyContent: 'center', flexDirection: 'row', gap: 8 }}>
+              <MinutesButton focusable type='positive' onClick={() => setTimerMinutes(prev => prev + 1)}>
+                <FaPlus size={8} /><span>1</span>
+              </MinutesButton>
               <MinutesButton focusable type='positive' onClick={() => setTimerMinutes(prev => prev + 5)}>
                 <FaPlus size={8} /><span>5</span>
               </MinutesButton>
@@ -139,6 +142,9 @@ function Content() {
         {secondsRemaining <= 0 ? (
           <PanelSectionRow>
             <Focusable flow-children="row" style={{ display: 'flex', paddingBottom: 16, flex: '1 1 auto', justifyContent: 'center', flexDirection: 'row', gap: 8 }}>
+              <MinutesButton focusable type='negative' disabled={timerMinutes <= 1} onClick={() => setTimerMinutes(prev => prev - 1)}>
+                <FaMinus size={8} /><span>1</span>
+              </MinutesButton>
               <MinutesButton focusable type='negative' disabled={timerMinutes <= 5} onClick={() => setTimerMinutes(prev => prev - 5)}>
                 <FaMinus size={8} /><span>5</span>
               </MinutesButton>
